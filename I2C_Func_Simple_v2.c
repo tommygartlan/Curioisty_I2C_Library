@@ -31,7 +31,7 @@ void i2c_init(void) {
 // Adapted from "i2c_start" [cite: 714]
 void i2c_start(void) {
     PIR3bits.SSP2IF = 0;        // Clear flag
-    while (SSP2STATbits.BF);    // Wait for idle condition
+    while (SSP2STATbits.BF);    // Wait for idle condition.  BF(Busy Flag) = 1 means data transmit in progress
     SSP2CON2bits.SEN = 1;       // Initiate START condition
     while (!PIR3bits.SSP2IF);   // Wait for flag to be set
     PIR3bits.SSP2IF = 0;        // Clear flag
