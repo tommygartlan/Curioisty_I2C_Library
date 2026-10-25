@@ -30,8 +30,6 @@ void i2c_init(void) {
 
 // Adapted from "i2c_start" [cite: 714]
 void i2c_start(void) {
-  //  PIR3bits.SSP2IF = 0;        // Clear flag
- //   while (SSP2STATbits.BF);    // Wait for idle condition.  BF(Busy Flag) = 1 means data transmit in progress
     SSP2CON2bits.SEN = 1;       // Initiate START condition
     while (!PIR3bits.SSP2IF);   // Wait for flag to be set
     PIR3bits.SSP2IF = 0;        // Clear flag
@@ -39,8 +37,6 @@ void i2c_start(void) {
 
 // Adapted from "i2c_repStart" [cite: 718]
 void i2c_repStart(void) {
-  //  PIR3bits.SSP2IF = 0;
- //   while (SSP2STATbits.BF);
     SSP2CON2bits.RSEN = 1;      // Initiate Repeated START
     while (!PIR3bits.SSP2IF);
     PIR3bits.SSP2IF = 0;
@@ -48,8 +44,6 @@ void i2c_repStart(void) {
 
 // Adapted from "i2c_stop" [cite: 720]
 void i2c_stop(void) {
- //   PIR3bits.SSP2IF = 0;
- //   while (SSP2STATbits.BF);
     SSP2CON2bits.PEN = 1;       // Initiate STOP condition
     while (!PIR3bits.SSP2IF);
     PIR3bits.SSP2IF = 0;
@@ -57,8 +51,6 @@ void i2c_stop(void) {
 
 // Adapted from "i2c_write" [cite: 724]
 bool i2c_write(unsigned char i2cWriteData) {
- //   PIR3bits.SSP2IF = 0;
-  //  while (SSP2STATbits.BF);
     SSP2BUF = i2cWriteData;     // Load SSPBUF [cite: 727]
     while (!PIR3bits.SSP2IF);   // Wait for flag
     PIR3bits.SSP2IF = 0;
@@ -68,8 +60,7 @@ bool i2c_write(unsigned char i2cWriteData) {
 // Adapted from "i2c_read" [cite: 730]
 unsigned char i2c_read(unsigned char ack) {
     unsigned char i2cReadData;
- //   PIR3bits.SSP2IF = 0;
-//    while (SSP2STATbits.BF);
+    
     SSP2CON2bits.RCEN = 1;      // Enable receive mode [cite: 731]
     while (!PIR3bits.SSP2IF);
     PIR3bits.SSP2IF = 0;
